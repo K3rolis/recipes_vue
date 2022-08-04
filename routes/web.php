@@ -26,9 +26,18 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
+//Route::get('recipes', [\App\Http\Controllers\RecipeController::class, 'index'])->name('recipes.index');
 Route::resource('recipes', \App\Http\Controllers\RecipeController::class);
 
-//Route::get('recipes', [\App\Http\Controllers\RecipeController::class, 'index'])->name('recipes.index');
+//Route::resource('categories', \App\Http\Controllers\CategoryController::class);
+Route::get('categories', [\App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
+Route::delete('categories/{category}', [\App\Http\Controllers\CategoryController::class, 'destroy'])->name('categories.destroy');
+Route::post('categories/{}', [\App\Http\Controllers\CategoryController::class, 'store'])->name('categories.store');
+
+//Route::resource('comments', \App\Http\Controllers\CommentController::class);
+Route::get('comments', [\App\Http\Controllers\CommentController::class, 'index'])->name('comments.index');
+Route::get('comments/edit/{comment}', [\App\Http\Controllers\CommentController::class, 'edit'])->name('comments.edit');
+Route::patch('comments/edit/{comment}', [\App\Http\Controllers\CommentController::class, 'update'])->name('comments.update');
+Route::delete('comments/{comment}', [\App\Http\Controllers\CommentController::class, 'destroy'])->name('comments.destroy');
 
 require __DIR__.'/auth.php';

@@ -7,15 +7,7 @@
                 Recipes
             </h2>
         </template>
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-4 bg-white border-b border-gray-200">
-                        <div v-show="visible" v-if="$page.props.flash.message" class="text-green-600">
-                            {{ $page.props.flash.message }}
-                        </div>
-                        <div class="overflow-hidden overflow-x-auto p-4 bg-white border-gray-200">
-                            <div class="min-w-full align-middle">
+<Crud>
                                 <Link :href="route('recipes.create')" class="inline-block px-4 py-3 bg-purple-500 text-white rounded mb-4"> Add new recipe </Link>
                                 <table class="min-w-full divide-y divide-gray-200 border">
                                     <thead>
@@ -66,12 +58,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+</Crud>
     </BreezeAuthenticatedLayout>
 </template>
 
@@ -79,22 +66,16 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia"
+import Crud from "@/Components/Crud.vue"
 
 export default {
-    data() {
-        return {
-            visible: true
-        }
-    },
     components: {
         Head, Link,
-        BreezeAuthenticatedLayout
+        BreezeAuthenticatedLayout,
+        Crud
     },
     props: {
         recipes: Object
-    },
-    created(){
-        setTimeout(() => this.visible = false, 3000)
     },
     // methods: {
     //     deleteRecipe(index, recipe) {
