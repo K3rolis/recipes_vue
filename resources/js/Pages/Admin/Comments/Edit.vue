@@ -1,5 +1,5 @@
 <template>
-    <Guest>
+    <BreezeAuthenticatedLayout>
 
         <Head title="Edit Comment"/>
         <template #header>
@@ -9,11 +9,11 @@
         </template>
 
         <div class="py-12">
-            <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
 
-                        <form @submit.prevent="form.patch(route('comment.update', form.id))">
+                        <form @submit.prevent="form.patch(route('admin.comments.update', form.id))">
                             <div class="mt-4">
                                 <label for="Comment" class="block font-medium text-sm text-gray-700">
                                     Comment
@@ -28,34 +28,35 @@
 
                                 </div>
                             </div>
+
+
                             <div class="py-4">
                                 <button type="submit"
                                         class="inline-flex items-center px-3 py-2 bg-purple-500 text-white rounded">
                                     Save Comment
                                 </button>
-                                <Link href="#"
-                                      @click="back"
+                                <Link :href="route('admin.comments.index')"
                                       class="inline-flex items-center mx-5 text-purple-500 font-bold">
                                     Cancel
                                 </Link>
                             </div>
+
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </Guest>
+    </BreezeAuthenticatedLayout>
 </template>
 
 <script>
-// import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
+import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import {Head, Link, useForm} from '@inertiajs/inertia-vue3';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import Guest from "@/Layouts/Guest.vue";
 
 export default {
     components: {
-        Guest,
+        BreezeAuthenticatedLayout,
         Head, Link,
     },
     props: {
@@ -67,11 +68,6 @@ export default {
             comment: props.comment.comment
         })
         return { form }
-    },
-    methods: {
-        back() {
-            window.history.back();
-        },
     }
 
 }

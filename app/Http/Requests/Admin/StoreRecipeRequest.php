@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,10 +25,10 @@ class StoreRecipeRequest extends FormRequest
     {
         return [
             'title' => 'required',
-//            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
             'total_time' => 'required|integer|numeric|min:1|max:10080',
             'ingredients' => 'required',
-            'instructions' => 'required'
+            'instructions' => 'required',
         ];
     }
 
@@ -36,8 +36,8 @@ class StoreRecipeRequest extends FormRequest
     {
         return [
             'title.required' => 'Please enter a title',
-//            'category_id.required' => 'Please enter a category',
-//            'category_id.exists' => 'This category does not exists',
+            'category_id.required' => 'Please enter a category',
+            'category_id.exists' => 'This category does not exists',
             'total_time.required' => 'Please enter a time',
             'total_time.integer' => 'Please enter valid integer value',
             'total_time.numeric' => 'Please enter valid integer value',

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,9 @@ class StoreCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'comment' => 'required|max:10000'
+            'comment' => 'required|max:10000',
+            'recipe_id' => '',
+            'user_id' => '',
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,15 +17,13 @@ class RecipeResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'file_path' => $this->photo_path,
-//            'total_time' => sprintf( '%02d', intdiv($this->total_time, 60)). ':' . sprintf('%02d',($this->total_time % 60)),
+            'photo_path' => $this->photo_path,
             'total_time' => $this->total_time,
             'ingredients' => substr($this->ingredients,0, 50) . '...',
             'instructions' => substr($this->instructions, 0, 50) . '...',
             'created_at' => $this->created_at->diffForHumans(),
-//            'updated_at' => $this->updated_at,
-//            'category_name' => $this->category->name,
-//            'category_id' => $this->category_id,
+            'category_id' => $this->category_id,
+            'recipe_url' => env('APP_URL') . '/storage/' . $this->photo_path
         ];
     }
 }

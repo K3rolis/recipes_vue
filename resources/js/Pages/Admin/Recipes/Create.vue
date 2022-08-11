@@ -12,7 +12,7 @@
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <form @submit.prevent="form.post(route('recipes.store'))">
+                        <form @submit.prevent="form.post(route('admin.recipes.store'))">
 
                             <div class="mt-4">
                                 <label for="title" class="block font-medium text-sm text-gray-700">
@@ -38,6 +38,20 @@
                                 </div>
                             </div>
 
+                            <div class="mt-4">
+                                <label for="category_id" class="block font-medium text-sm text-gray-700">
+                                    Category
+                                </label>
+                                <select v-model="form.category_id"
+                                        class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="" disabled selected>Select Category</option>
+                                    <option v-for="category in categories" :key="category.id" :value="category.id"> {{ category.name }}</option>
+                                </select>
+                                <div v-if="errors.category_id" class="text-red-600">
+                                    {{ errors.category_id }}
+                                </div>
+                            </div>
+
                             <div class="mt-4 rounded-md">
                                 <label for="ingredients" class="block font-medium text-sm text-gray-700">
                                     Ingredients
@@ -59,12 +73,19 @@
                                     {{ errors.instructions }}
                                 </div>
                             </div>
+
+
+                            <input type="file" @input="form.photo_path = $event.target.files[0]" />
+                            <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                                {{ form.progress.percentage }}%
+                            </progress>
+
                             <div class="py-4">
                                 <button type="submit" :disabled="form.processing"
                                         class="inline-flex items-center px-3 py-2 bg-purple-500 text-white rounded">
                                     Save Post
                                 </button>
-                                <Link :href="route('recipes.index')"
+                                <Link :href="route('admin.recipes.index')"
                                       class="inline-flex items-center mx-5 text-purple-500 font-bold">
                                     Cancel
                                 </Link>
@@ -91,14 +112,17 @@ export default {
         QuillEditor
     },
     props: {
-        errors: Object
+        errors: Object,
+        categories: Object
     },
     setup() {
         const form = useForm({
             title: '',
+            photo_path: 'images/default.jpg',
             total_time: '',
             ingredients: '',
             instructions: '',
+            category_id: '',
         })
         return {form}
     }

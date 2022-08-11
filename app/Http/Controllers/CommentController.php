@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCommentRequest;
-use App\Http\Resources\CommentResource;
+use App\Http\Requests\Admin\StoreCommentRequest;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function index()
+    public function store(StoreCommentRequest $request)
     {
-        $comments = CommentResource::collection(Comment::all());
+//        Comment::create($request->validated());
+        Comment::create($request->validated());
 
-        return inertia('Comments/Index', compact('comments'));
+        return redirect()->back()->with('message', 'Comment added successfully!');
     }
 
     public function edit(Comment $comment)
@@ -25,15 +25,16 @@ class CommentController extends Controller
     {
         $comment->update($request->validated());
 
-        return redirect()->route('comments.index')
-            ->with('message', 'Comment updated successfully');
+        return redirect()->route('recipe.show', $comment->recipe_id)->with('message', 'Comment edited successfully');
+
     }
 
     public function destroy(Comment $comment)
     {
-     $comment->delete();
+        $comment->delete();
 
-     return redirect()->route('comments.index')
-         ->with('message', 'Comment deleted successfully');
+        return redirect()->route('recipe.show', $comment->recipe_id)
+            ->with('message', 'Comment deleted successfully');
     }
+
 }

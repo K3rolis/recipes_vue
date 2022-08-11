@@ -20,7 +20,7 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('recipes.index')">
                                     <BreezeApplicationLogo class="block h-9 w-auto" />
                                 </Link>
                             </div>
@@ -28,9 +28,9 @@ const showingNavigationDropdown = ref(false);
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">Dashboard</BreezeNavLink>
-                                <BreezeNavLink :href="route('recipes.index')" :active="route().current('recipes.index')">Recipes</BreezeNavLink>
-                                <BreezeNavLink :href="route('categories.index')" :active="route().current('categories.index')">Categories</BreezeNavLink>
-                                <BreezeNavLink :href="route('comments.index')" :active="route().current('comments.index')">Comments</BreezeNavLink>
+                                <BreezeNavLink :href="route('admin.recipes.index')" :active="route().current('admin.recipes.index')">Recipes</BreezeNavLink>
+                                <BreezeNavLink :href="route('admin.categories.index')" :active="route().current('admin.categories.index')">Categories</BreezeNavLink>
+                                <BreezeNavLink :href="route('admin.comments.index')" :active="route().current('admin.comments.index')">Comments</BreezeNavLink>
                             </div>
                         </div>
 

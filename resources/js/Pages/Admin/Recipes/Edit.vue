@@ -13,7 +13,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
 
-                        <form @submit.prevent="form.put(route('recipes.update', form.id))">
+                        <form @submit.prevent="form.put(route('admin.recipes.update', form.id))">
                             <div class="mt-4">
                                 <label for="title" class="block font-medium text-sm text-gray-700">
                                     Title
@@ -35,6 +35,19 @@
                                        class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <div v-if="errors.total_time" class="text-red-600">
                                     {{ errors.total_time }}
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <label for="category_id" class="block font-medium text-sm text-gray-700">
+                                    Category
+                                </label>
+                                <select v-model="form.category_id"
+                                       class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option v-for="category in categories" :key="category.id" :value="category.id"> {{ category.name }}</option>
+                                </select>
+                                    <div v-if="errors.category_id" class="text-red-600">
+                                    {{ errors.category_id }}
                                 </div>
                             </div>
 
@@ -64,8 +77,8 @@
                                         class="inline-flex items-center px-3 py-2 bg-purple-500 text-white rounded">
                                     Save Post
                                 </button>
-                                <Link :href="route('recipes.index')"
-                                      class="inline-flex items-center mx-5 text-purple-500 font-bold">
+                                <Link :href="route('admin.recipes.index')"
+                                      class="inline-flex items-center mx-5 text-purple-500 font-bold" as="button">
                                     Cancel
                                 </Link>
                             </div>
@@ -92,6 +105,7 @@ export default {
     },
     props: {
         recipe: Object,
+        categories: Object,
         errors: Object
     },
     setup(props) {
@@ -99,6 +113,7 @@ export default {
             id: props.recipe.id,
             title: props.recipe.title,
             total_time: props.recipe.total_time,
+            category_id: props.recipe.category_id,
             ingredients: props.recipe.ingredients,
             instructions: props.recipe.instructions,
         })

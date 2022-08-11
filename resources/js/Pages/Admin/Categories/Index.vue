@@ -12,8 +12,9 @@
             <button @click="isShow = !isShow" class="inline-block px-4 py-3 bg-purple-500 text-white rounded mb-4"> Add
                 new category
             </button>
-            <form @submit.prevent="form.post(route('categories.store'))">
+
                 <div v-if="isShow" class="relative">
+                    <form @submit.prevent="form.post(route('admin.categories.store'))">
                     <label for="name" class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"> Category
                         name </label>
                     <input v-model="form.name"
@@ -27,8 +28,8 @@
                     <div v-if="errors.name" class="text-red-500">
                             {{ errors.name }}
                     </div>
+                    </form>
                 </div>
-            </form>
             <table class="min-w-full divide-y divide-gray-200 border">
                 <thead>
                 <tr>
@@ -102,7 +103,7 @@ export default {
         })
         const confirmDelete = (id) => {
             if(confirm('Are you sure? All recipes included this category will lose category ')){
-                Inertia.delete(route('categories.destroy', id))
+                Inertia.delete(route('admin.categories.destroy', id))
             }
         }
 
@@ -117,5 +118,6 @@ export default {
     // },
 
 }
+
 </script>
 

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Recipe;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,13 @@ class CommentFactory extends Factory
      */
     public function definition()
     {
+        $recipeIDs = Recipe::pluck('id');
+        $userIDs = User::pluck('id');
+
         return [
-            'comment' => $this->faker->text(500)
+            'comment' => $this->faker->text(500),
+            'recipe_id' => $recipeIDs->random(),
+            'user_id' => $userIDs->random()
         ];
     }
 }

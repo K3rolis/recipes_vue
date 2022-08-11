@@ -39,7 +39,7 @@
                         {{ comment.created_at }}
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                        <Link :href="route('comments.edit', comment.id)" class="px-2 py-1 bg-blue-500 text-white rounded font-bold uppercase mr-2">edit</Link>
+                        <Link :href="route('admin.comments.edit', comment.id)" class="px-2 py-1 bg-blue-500 text-white rounded font-bold uppercase mr-2" as="button">edit</Link>
                         <button @click="confirmDelete(comment.id)" type="button" class="px-2 py-1 bg-red-500 text-white rounded font-bold uppercase">
                             delete
                         </button>
@@ -69,7 +69,7 @@ export default {
     methods: {
         confirmDelete(id) {
             if(confirm('Are you sure want to delete this comment?')) {
-                Inertia.delete(route('comments.destroy', id))
+                Inertia.delete(route('admin.comments.destroy', id))
             }
         }
     }

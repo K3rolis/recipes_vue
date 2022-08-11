@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Resources\CategoryResource;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreCategoryRequest;
+use App\Http\Resources\Admin\CategoryResource;
 use App\Models\Category;
+
 //use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,14 +15,14 @@ class CategoryController extends Controller
     {
         $categories = CategoryResource::collection(Category::all());
 
-        return inertia('Categories/Index', compact('categories'));
+        return inertia('Admin/Categories/Index', compact('categories'));
     }
 
     public function store(StoreCategoryRequest $request)
     {
         Category::create($request->validated());
 
-        return redirect()->route('categories.index')
+        return redirect()->route('admin.categories.index')
             ->with('message', 'Category created successfully');
     }
 
@@ -28,7 +30,7 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return redirect()->route('categories.index')
+        return redirect()->route('admin.categories.index')
             ->with('message', 'Category deleted successfully');
     }
 }

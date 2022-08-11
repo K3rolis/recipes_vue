@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,13 +17,14 @@ class RecipeFactory extends Factory
      */
     public function definition()
     {
+        $categoryIDs = Category::pluck('id');
+
         return [
             'title' => $this->faker->text(30),
-            'photo_path' => 'https://picsum.photos/800/600',
             'total_time' => $this->faker->numberBetween(10,300),
             'ingredients' => $this->faker->text(250),
             'instructions' => $this->faker->text(500),
-//            'category_id' => $categoryIDs->random()
+            'category_id' => $categoryIDs->random()
         ];
     }
 }

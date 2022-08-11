@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CommentResource extends JsonResource
+class CategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,8 @@ class CommentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'comment' => $this->comment,
-            'created_at' => $this->created_at->diffForHumans()
+            'name' => $this->name,
+            'created_at'=> $this->created_at->diffForHumans(),
         ];
     }
 }
