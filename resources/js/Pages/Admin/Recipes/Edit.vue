@@ -72,6 +72,7 @@
                                     {{ errors.instructions }}
                                 </div>
                             </div>
+
                             <div class="py-4">
                                 <button type="submit" :disabled="form.processing"
                                         class="inline-flex items-center px-3 py-2 bg-purple-500 text-white rounded">

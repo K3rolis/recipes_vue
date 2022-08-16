@@ -6,6 +6,7 @@ import BreezeDropdownLink from '@/Components/DropdownLink.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
+import Navigation from '@/Components/Navigation.vue'
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -26,36 +27,26 @@ const showingNavigationDropdown = ref(false);
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">Dashboard</BreezeNavLink>
-                                <BreezeNavLink :href="route('admin.recipes.index')" :active="route().current('admin.recipes.index')">Recipes</BreezeNavLink>
-                                <BreezeNavLink :href="route('admin.categories.index')" :active="route().current('admin.categories.index')">Categories</BreezeNavLink>
-                                <BreezeNavLink :href="route('admin.comments.index')" :active="route().current('admin.comments.index')">Comments</BreezeNavLink>
-                            </div>
+                            <Navigation/>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
-                                <BreezeDropdown align="right" width="48">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                                {{ $page.props.auth.user.name }}
-
-                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
-
-                                    <template #content>
-                                        <BreezeDropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
-                                        </BreezeDropdownLink>
-                                    </template>
-                                </BreezeDropdown>
+                                <div class="align-right left-48">
+                                    <div v-if="!$page.props.auth.user">
+                                        <BreezeNavLink :href="route('login')" class="mr-4">Log in</BreezeNavLink>
+                                        <BreezeNavLink :href="route('register')">Register</BreezeNavLink>
+                                    </div>
+                                    <div v-else>
+                                        <div>{{ $page.props.auth.user.name }}
+                                        <span v-if="$page.props.permissions.administrator" class="text-red-500"> Admin </span>
+                                        <span v-if="$page.props.permissions.editor" class="text-blue-500"> Editor </span>
+                                        </div>
+                                        <BreezeNavLink :href="route('logout')" method="post">
+                                            log out
+                                        </BreezeNavLink>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -74,9 +65,10 @@ const showingNavigationDropdown = ref(false);
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('recipes.index')" :active="route().current('recipes.index')">Home</BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink v-if="$page.props.permissions.administrator || $page.props.permissions.editor" :href="route('admin.recipes.index')" :active="route().current('admin.recipes.index')">Recipes</BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink v-if="$page.props.permissions.administrator || $page.props.permissions.editor" :href="route('admin.categories.index')" :active="route().current('admin.categories.index')">Categories</BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink v-if="$page.props.permissions.administrator || $page.props.permissions.editor" :href="route('admin.comments.index')" :active="route().current('admin.comments.index')">Comments</BreezeResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -84,6 +76,8 @@ const showingNavigationDropdown = ref(false);
                         <div class="px-4">
                             <div class="font-medium text-base text-gray-800">{{ $page.props.auth.user.name }}</div>
                             <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                            <span v-if="$page.props.permissions.administrator" class="text-red-500"> Admin </span>
+                            <span v-if="$page.props.permissions.editor" class="text-blue-500"> Editor </span>
                         </div>
 
                         <div class="mt-3 space-y-1">

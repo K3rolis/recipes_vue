@@ -32,7 +32,7 @@ Route::get('/dashboard', function () {
 Route::get('admin/recipes', [\App\Http\Controllers\Admin\RecipeController::class, 'index'])->name('admin.recipes.index');
 Route::get('admin/recipes/create', [\App\Http\Controllers\Admin\RecipeController::class, 'create'])->name('admin.recipes.create');
 Route::get('admin/recipes/edit/{recipe}', [\App\Http\Controllers\Admin\RecipeController::class, 'edit'])->name('admin.recipes.edit');
-Route::put('admin/recipes/{recipe}', [\App\Http\Controllers\Admin\RecipeController::class, 'update'])->name('admin.recipes.update');
+Route::put('admin/recipes/edit/{recipe}', [\App\Http\Controllers\Admin\RecipeController::class, 'update'])->name('admin.recipes.update');
 Route::post('admin/recipes', [\App\Http\Controllers\Admin\RecipeController::class, 'store'])->name('admin.recipes.store');
 Route::delete('admin/recipes/{recipe}', [\App\Http\Controllers\Admin\RecipeController::class, 'destroy'])->name('admin.recipes.destroy');
 
@@ -41,6 +41,9 @@ Route::delete('admin/recipes/{recipe}', [\App\Http\Controllers\Admin\RecipeContr
 Route::get('admin/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('admin.categories.index');
 Route::delete('admin/categories/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 Route::post('admin/categories/{}', [\App\Http\Controllers\Admin\CategoryController::class, 'store'])->name('admin.categories.store');
+Route::get('admin/categories/edit/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('admin.categories.edit');
+Route::patch('admin/categories/edit/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
+
 
 //Route::resource('comments', \App\Http\Controllers\Admin\CommentController::class);
 Route::get('admin/comments', [\App\Http\Controllers\Admin\CommentController::class, 'index'])->name('admin.comments.index');

@@ -5,6 +5,12 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-4 bg-white border-b border-gray-200">
                     <div class="overflow-hidden overflow-x-auto p-4 bg-white border-gray-200 my-3">
+                        <div v-show="visible" v-if="$page.props.flash.message" class="text-green-600">
+                            {{ $page.props.flash.message }}
+                        </div>
+                        <div v-if="errors.comment" class="text-red-600">
+                            {{ errors.comment }}
+                        </div>
                         <span class="font-bold text-xl m-5"> {{ recipe.title }}</span>
                         <div class="min-w-full align-middle my-3">
                             <div
@@ -50,9 +56,6 @@
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 pt-6">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-4 bg-white border-b border-gray-200">
-                    <div v-show="visible" v-if="$page.props.flash.message" class="text-green-600">
-                        {{ $page.props.flash.message }}
-                    </div>
 
                     <div class="uppercase text-xl px-5 mb-2"> Comments: {{ comments.length }}</div>
                     <div v-if="$page.props.auth.user" class="text-base mt-5 mb-2"> Leave a comment here
@@ -64,7 +67,7 @@
                     </form>
                     </div>
                     <div v-else class="mb-3">
-                        <Link class="text-blue-500" :href="route('login')" as="button">Only registered users can add new comment</Link>
+                        <Link class="text-blue-500" :href="route('login')">Only registered users can add new comment</Link>
                     </div>
                     <div v-for="comment in comments" :key="comment.id">
                         <div class="border-gray-400-500 border p-6">
@@ -81,16 +84,19 @@
                             <div class="my-3">
                                 {{ comment.comment }}
                             </div>
-                            <div v-if="(auth.user) && (auth.user.name === comment.user_name)" class="text-right">
-                                <button @click="confirmDelete(comment.id)" class="border-gray-400 border p-1 mx-2 text-sm"> Delete</button>
+
+                            <div v-if="auth.user && auth.user.name === comment.user_name" class="text-right">
+                                <Link @click="confirmDelete(comment.id)" class="border-gray-400 border p-1 mx-2 text-sm"> Delete</Link>
                                 <Link :href="route('comment.edit', comment.id)" class="border-gray-400 border p-1 text-sm "> Edit</Link>
                             </div>
-<!--                        </div>-->
+                            <div v-else-if="auth.user && auth.user.name !== comment.user_name && $page.props.permissions.administrator" class="text-right">
+                                <Link @click="confirmDelete(comment.id)" class="border-gray-400 border p-1 mx-2 text-sm"> Delete</Link>
+                            </div>
+                            <div v-else-if="auth.user && auth.user.name !== comment.user_name && $page.props.permissions.editor" class="text-right">
+                                <Link :href="route('comment.edit', comment.id)" class="border-gray-400 border p-1 text-sm "> Edit</Link>
+                            </div>
+
                         </div>
-<!--                        <div v-if="this.comments ? this.comments.length : 0" class="font-monse">-->
-<!--                            <span class="px-6 py-4 border-t" colspan="4">{{ this.comments}}</span>-->
-<!--                        </div>-->
-<!--                        <div v-if="comment.length === 0"> LALAL</div>-->
                     </div>
                 </div>
             </div>
@@ -110,6 +116,7 @@ const props = defineProps ({
         recipe: Object,
         comments: Object,
         auth: Object,
+        errors: Object,
     })
 
 const form = useForm({

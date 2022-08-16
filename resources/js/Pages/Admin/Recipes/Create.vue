@@ -74,8 +74,13 @@
                                 </div>
                             </div>
 
-
+                            <label class="block font-medium text-sm text-gray-700 mt-4">
+                                Max File size: 12 MB
+                            </label>
                             <input type="file" @input="form.photo_path = $event.target.files[0]" />
+                            <div v-if="errors.photo_path" class="text-red-600">
+                                {{ errors.photo_path }}
+                            </div>
                             <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                 {{ form.progress.percentage }}%
                             </progress>

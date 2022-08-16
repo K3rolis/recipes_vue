@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Role;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id'
     ];
 
     /**
@@ -45,5 +47,19 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function getPermissionsAttribute()
+    {
+        return [
+            'administrator' => $this->role_id == 1,
+            'editor' => $this->role_id == 2,
+            'user' => $this->role_id == 3
+        ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

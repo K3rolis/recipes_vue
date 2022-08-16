@@ -3,10 +3,13 @@
 import { Link } from '@inertiajs/inertia-vue3';
 import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
-import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import {ref} from "vue";
+import Navigation from "@/Components/Navigation.vue"
+import BreezeResponsiveNavigation from "@/Components/BreezeResponsiveNavigation.vue";
+import BreezeResponsiveNavLink from "@/Components/ResponsiveNavLink.vue"
 
 const showingNavigationDropdown = ref(false);
+
 </script>
 
 <template>
@@ -23,10 +26,7 @@ const showingNavigationDropdown = ref(false);
                     </div>
 
                     <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">Dashboard</BreezeNavLink>
-                        <BreezeNavLink :href="route('admin.recipes.index')" :active="route().current('admin.recipes.index')">Admin</BreezeNavLink>
-                    </div>
+                    <Navigation/>
                     <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
 
                     </div>
@@ -41,7 +41,10 @@ const showingNavigationDropdown = ref(false);
                                 <BreezeNavLink :href="route('register')">Register</BreezeNavLink>
                             </div>
                             <div v-else>
-                                <div>{{ $page.props.auth.user.name }}</div>
+                                <div>{{ $page.props.auth.user.name }}
+                                    <span v-if="$page.props.permissions.administrator" class="text-red-500"> Admin </span>
+                                    <span v-if="$page.props.permissions.editor" class="text-blue-500"> Editor </span>
+                                </div>
                                 <BreezeNavLink :href="route('logout')" method="post">
                                     log out
                                 </BreezeNavLink>
@@ -73,12 +76,28 @@ const showingNavigationDropdown = ref(false);
         <!-- Responsive Navigation Menu -->
         <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
             <div class="pt-2 pb-3 space-y-1">
-                <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                    Dashboard
-                </BreezeResponsiveNavLink>
+                <BreezeResponsiveNavigation/>
+            </div>
+
+            <div class="pt-4 pb-1 border-t border-gray-200">
+                <div class="px-4" v-if="!$page.props.auth">
+                    <div class="font-medium text-base text-gray-800">{{ $page.props.auth.user.name }}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                    <span v-if="$page.props.permissions.administrator" class="text-red-500"> Admin </span>
+                    <span v-if="$page.props.permissions.editor" class="text-blue-500"> Editor </span>
+                </div>
+
+                <div class="mt-3 space-y-1">
+                    <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
+                        Log Out
+                    </BreezeResponsiveNavLink>
+                </div>
             </div>
 
         </div>
+
+
+
     </nav>
 
     <!-- Page Heading -->

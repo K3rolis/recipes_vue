@@ -19,15 +19,15 @@
                         name </label>
                     <input v-model="form.name"
                            type="text"
-                           class="block p-2.5 w-full mb-4 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                           class="block p-2.5 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     <button type="submit"
                             :disabled="form.processing"
                             class="absolute top-6 right-0 p-3 text-sm font-medium text-white bg-purple-500 rounded-r-lg border border-purple-500 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
                         Submit
                     </button>
-                    <div v-if="errors.name" class="text-red-500">
+                        <div v-if="errors.name" class="text-red-500">
                             {{ errors.name }}
-                    </div>
+                        </div>
                     </form>
                 </div>
             <table class="min-w-full divide-y divide-gray-200 border">
@@ -51,7 +51,7 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200 divide-solid">
-                <tr v-for="(category, index) in categories" :key="category.id">
+                <tr v-for="(category, index) in categories.data" :key="category.id">
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                         {{ ++index }}
                     </td>
@@ -62,8 +62,9 @@
                         {{ category.created_at }}
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-<!--                        <Link :href="route('recipes.edit', category.id)" class="px-2 py-1 bg-blue-500 text-white rounded font-bold uppercase mr-2">edit</Link>-->
-                        <button @click="confirmDelete(category.id)" type="button"
+                        <Link :href="route('admin.categories.edit', category.id)" class="px-2 py-1 bg-blue-500 text-white rounded font-bold uppercase mr-2">edit</Link>
+
+                        <button v-if="$page.props.permissions.administrator" @click="confirmDelete(category.id)" type="button"
                                 class="px-2 py-1 bg-red-500 text-white rounded font-bold uppercase">
                             delete
                         </button>
@@ -71,6 +72,7 @@
                 </tr>
                 </tbody>
             </table>
+            <pagination class="mt-6" :links="categories.links" />
         </Crud>
     </BreezeAuthenticatedLayout>
 </template>
@@ -80,13 +82,14 @@ import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import Crud from "@/Components/Crud.vue";
 import {Head, Link, useForm} from '@inertiajs/inertia-vue3';
 import {Inertia} from "@inertiajs/inertia";
+import pagination from "@/Components/Pagination.vue";
 
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
         Crud,
-        Head, Link
+        Head, Link, pagination
     },
     props: {
         categories: Object,
@@ -102,7 +105,7 @@ export default {
             name: ''
         })
         const confirmDelete = (id) => {
-            if(confirm('Are you sure? All recipes included this category will lose category ')){
+            if(confirm('Are you sure? All recipes included this category will lose category value!!')){
                 Inertia.delete(route('admin.categories.destroy', id))
             }
         }

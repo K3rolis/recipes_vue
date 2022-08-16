@@ -1,10 +1,10 @@
 <template>
     <Guest>
 
-        <Head title="Edit Comment"/>
+        <Head title="Edit Category"/>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Edit Comment
+                Edit Category
             </h2>
         </template>
 
@@ -13,27 +13,25 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
 
-                        <form @submit.prevent="form.patch(route('comment.update', form.id))">
+                        <form @submit.prevent="form.patch(route('admin.categories.update', form.id))">
                             <div class="mt-4">
                                 <label for="Comment" class="block font-medium text-sm text-gray-700">
-                                    Comment
+                                    Category
                                 </label>
-                                <textarea
-                                    v-model="form.comment"
+                                <input
+                                    v-model="form.name"
                                     type="text"
-                                    rows="5"
                                     class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                </textarea>
                                 <div>
-                                    <div v-if="errors.comment" class="text-red-600">
-                                        {{ errors.comment }}
+                                    <div v-if="errors.name" class="text-red-500">
+                                        {{ errors.name }}
                                     </div>
                                 </div>
                             </div>
                             <div class="py-4">
                                 <button type="submit"
                                         class="inline-flex items-center px-3 py-2 bg-purple-500 text-white rounded">
-                                    Save Comment
+                                    Save Category
                                 </button>
                                 <Link href="#"
                                       @click="back"
@@ -52,7 +50,6 @@
 <script>
 // import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import {Head, Link, useForm} from '@inertiajs/inertia-vue3';
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import Guest from "@/Layouts/Guest.vue";
 
 export default {
@@ -61,13 +58,13 @@ export default {
         Head, Link,
     },
     props: {
-        comment: Object,
+        category: Object,
         errors: Object,
     },
     setup(props){
         const form = useForm({
-            id: props.comment.id,
-            comment: props.comment.comment
+            id: props.category.id,
+            name: props.category.name
         })
         return { form }
     },

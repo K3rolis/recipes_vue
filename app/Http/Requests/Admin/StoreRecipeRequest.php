@@ -29,6 +29,7 @@ class StoreRecipeRequest extends FormRequest
             'total_time' => 'required|integer|numeric|min:1|max:10080',
             'ingredients' => 'required',
             'instructions' => 'required',
+            'photo_path' => 'image|max:12000'
         ];
     }
 
@@ -44,7 +45,7 @@ class StoreRecipeRequest extends FormRequest
             'total_time.min' => 'Please enter a valid time',
             'total_time.max' => 'Too much time for this recipe',
             'ingredients.required' => 'Please enter ingredients',
-            'instructions.required' => 'Please enter instructions'
+            'instructions.required' => 'Please enter instructions',
         ];
     }
 }

@@ -25,6 +25,9 @@
                                     class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </textarea>
                                 <div>
+                                    <div v-if="errors.comment" class="text-red-600">
+                                        {{ errors.comment }}
+                                    </div>
 
                                 </div>
                             </div>
@@ -60,7 +63,8 @@ export default {
         Head, Link,
     },
     props: {
-        comment: Object
+        comment: Object,
+        errors: Object
     },
     setup(props){
         const form = useForm({
